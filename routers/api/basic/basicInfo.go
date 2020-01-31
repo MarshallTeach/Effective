@@ -3,7 +3,9 @@ package basic
 import (
 	"Effective/pkg/app"
 	"Effective/pkg/e"
+	"Effective/service/info_service"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type AddBasicInfo struct {
@@ -40,4 +42,34 @@ func EditBasicInfo(c *gin.Context)  {
 		appG.Response(httpCode, errCode, nil)
 		return
 	}
+
+	infoService := info_service.BasicInfo{
+		WebsiteName: form.WebsiteName,
+		WebsiteUrl : form.WebsiteUrl,
+		WebsiteLogoUrl : form.WebsiteLogoUrl,
+		WebsiteFaviconUrl : form.WebsiteFaviconUrl,
+		WebsiteCompanyName : form.WebsiteCompanyName,
+		WebsiteContact : form.WebsiteContact,
+		WebsiteMobile : form.WebsiteMobile,
+		WebsiteHotLine : form.WebsiteHotLine,
+		WebsiteTel : form.WebsiteTel,
+		WebsiteFax : form.WebsiteFax,
+		WebsiteQQ : form.WebsiteQQ,
+		WebsiteEmail : form.WebsiteEmail,
+		WebsiteAddress : form.WebsiteAddress,
+		WebsiteQRcode : form.WebsiteQRcode,
+		WebsiteHeaderMsg : form.WebsiteHeaderMsg,
+		WebsiteFooterMsg : form.WebsiteFooterMsg,
+		WebsiteCopyright : form.WebsiteCopyright,
+		WebsiteIcp : form.WebsiteIcp,
+		WebsiteSupport : form.WebsiteSupport,
+		WebsiteDisclaim : form.WebsiteDisclaim,
+	}
+
+	if err := infoService.Add(); err != nil {
+		appG.Response(http.StatusInternalServerError, e.ERROR_ADD_BASIC_INFO_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, nil)
 }

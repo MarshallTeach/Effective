@@ -24,6 +24,10 @@ type BasicInfo struct {
 	WebsiteDisclaim string `json:"website_disclaim"`
 }
 
-func EditBasicInfo(interface{}) (bool, error) {
+func AddBasicInfo(data map[string]interface{}) error {
+	if err := db.Model(&BasicInfo{}).Where("id = 1").Updates(data).Error; err != nil {
+		return err
+	}
 
+	return nil
 }
