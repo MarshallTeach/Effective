@@ -1,6 +1,9 @@
 package info_service
 
-import "Effective/models"
+import (
+	"Effective/models"
+	"fmt"
+)
 
 type BasicInfo struct {
 	models.Model
@@ -57,3 +60,29 @@ func (b *BasicInfo) Add() error {
 	return nil
 }
 
+func (b *BasicInfo) Get() (*models.BasicInfo, error) {
+/*	var cacheInfo *models.BasicInfo
+	fmt.Println("b.ID", b.ID)
+	cache := cache_service.Info{ID: b.ID}
+	key := cache.GetInfoKey()
+	fmt.Println("KEY", key)
+	fmt.Println("CACHE", &cacheInfo)*/
+	/*if gredis.Exists(key) {
+		data, err := gredis.Get(key)
+		if err != nil {
+			logging.Info(err)
+		} else {
+			json.Unmarshal(data, &cacheInfo)
+			return cacheInfo, nil
+		}
+	}*/
+
+	info, err := models.GetInfo(b.ID)
+	fmt.Println("infoservice info", info)
+	if err != nil {
+		return nil, err
+	}
+
+	/*gredis.Set(key, *info, 3600)*/
+	return info, nil
+}

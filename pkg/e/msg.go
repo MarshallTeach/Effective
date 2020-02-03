@@ -13,6 +13,7 @@ var MsgFlags = map[int]string {
 	ERROR_UPLOAD_CHECK_IMAGE_FAIL:   "检查图片失败",
 	ERROR_UPLOAD_CHECK_IMAGE_FORMAT: "校验图片错误，图片格式或大小有问题",
 	ERROR_ADD_BASIC_INFO_FAIL : "添加基本信息出错",
+	ERROR_GET_BASIC_INFO_FAIL : "获取基本信息出错",
 }
 
 func GetMsg(code int) string {

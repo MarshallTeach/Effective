@@ -1,10 +1,14 @@
 package basic
 
 import (
+	"Effective/models"
 	"Effective/pkg/app"
 	"Effective/pkg/e"
 	"Effective/service/info_service"
+	"fmt"
+	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
 	"net/http"
 )
 
@@ -72,4 +76,30 @@ func EditBasicInfo(c *gin.Context)  {
 	}
 
 	appG.Response(http.StatusOK, e.SUCCESS, nil)
+}
+
+func GetBasicInfo(c *gin.Context)  {
+	appG := app.Gin{c}
+	id := com.StrTo(c.Query("id")).MustInt()
+	fmt.Println(id)
+	valid := validation.Validation{}
+	valid.Min(id, 1, "id").Message("ID必须大于0")
+
+	if valid.HasErrors() {
+		app.MarkErrors(valid.Errors)
+		appG.Response(http.StatusBadRequest, e.INVALID_PARAMS, nil)
+		return
+	}
+
+	infoService := info_service.BasicInfo{
+		Model: models.Model{ID: id},
+	}
+
+	info, err := infoService.Get()
+	if err != nil {
+		appG.Response(http.StatusOK, e.ERROR_GET_BASIC_INFO_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, info)
 }

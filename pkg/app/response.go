@@ -15,4 +15,6 @@ func (g *Gin) Response(httpCode, errCode int, data interface{}) {
 		"msg": e.GetMsg(errCode),
 		"data": data,
 	})
+
+	return
 }

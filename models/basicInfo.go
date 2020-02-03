@@ -1,5 +1,9 @@
 package models
 
+import (
+	"github.com/jinzhu/gorm"
+)
+
 type BasicInfo struct {
 	Model
 	WebsiteName string `json:"website_name"`
@@ -30,4 +34,13 @@ func AddBasicInfo(data map[string]interface{}) error {
 	}
 
 	return nil
+}
+
+func GetInfo(id int) (*BasicInfo, error) {
+	var info BasicInfo
+	err := db.Where("id = ?", id).First(&info).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+	return &info, nil
 }
